@@ -1,0 +1,90 @@
+{
+  "id": "nl.nielsdeklerk.XiaomiYeelightCandela",
+  "version": "0.0.4",
+  "compatibility": ">2.0.0",
+  "sdk": 2,
+  "permissions": ["homey:wireless:ble"],
+  "name": {
+    "en": "Xiaomi Yeelight Candela BLE Lights"
+  },
+  "description": {
+    "en": "App for Xiaomi Yeelight Candela BLE Lights"
+  },
+  "category": ["lights"],
+  "tags": {
+    "en": ["Xiaomi", "Yeelight", "Candela", "ambiance", "lamp", "bluetooth", "BLE", "Mi", "LED"]
+  },
+  "images": {
+    "large": "/assets/images/large.jpg",
+    "small": "/assets/images/small.jpg"
+  },
+  "author": {
+    "name": "Niels de Klerk",
+    "email": "mail@nielsdeklerk.nl"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Niels de Klerk",
+        "email": "mail@nielsdeklerk.nl"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "NielsdeKlerk"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/nklerk"
+  },
+  "homeyCommunityTopicId": 16518,
+  "capabilities": {},
+  "drivers": [
+    {
+      "id": "candela",
+      "name": {
+        "en": "Candela"
+      },
+      "images": {
+        "large": "drivers/candela/assets/images/large.jpg",
+        "small": "drivers/candela/assets/images/small.jpg"
+      },
+      "class": "light",
+      "capabilities": ["onoff", "dim"],
+      "capabilitiesOptions": {},
+      "mobile": {
+        "components": [
+          {
+            "id": "icon",
+            "capabilities": ["onoff"]
+          },
+          {
+            "id": "slider",
+            "capabilities": ["dim"]
+          }
+        ]
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": []
+    }
+  ],
+  "flow": {
+    "triggers": [],
+    "actions": []
+  }
+}
