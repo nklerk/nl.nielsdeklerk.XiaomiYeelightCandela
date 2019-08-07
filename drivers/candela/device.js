@@ -6,7 +6,9 @@ const COMMAND_ON = Buffer.from("4340010101f4", "hex");
 const COMMAND_OFF = Buffer.from("4340020101f4", "hex");
 const COMMAND_DIM_HEADER = "4342";
 const COMMAND_DIM_FOOTER = "0101f4";
+
 const SERVICE_UUID = "fe87";
+const SERVICE_NOTIFY_UUID = "8f65073d9f574aaaafea397d19d5bbeb";
 const SERVICE_COMMAND_UUID = "aa7d3f342d4f41e0807f52fbf8cf7443";
 
 class CandelaBle extends Homey.Device {

@@ -1,8 +1,9 @@
 {
   "id": "nl.nielsdeklerk.XiaomiYeelightCandela",
-  "version": "0.0.4",
-  "compatibility": ">2.0.0",
+  "version": "0.0.5",
+  "compatibility": ">2.4.0",
   "sdk": 2,
+  "brandColor": "#DF2D31",
   "permissions": ["homey:wireless:ble"],
   "name": {
     "en": "Xiaomi Yeelight Candela BLE Lights"
