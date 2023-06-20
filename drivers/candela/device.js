@@ -66,18 +66,19 @@ class CandelaBle extends Homey.Device {
       this.log(`Brightness is set to ${value}`);
 
       const brightness = parseInt(100 * value);
-      let command = "";
+
       if (brightness == 0) {
-        command = COMMAND_OFF;
+        await this.sendCommand(COMMAND_OFF);
+        return Promise.resolve(true);
       } else {
         const brightnessHex = ("0" + Number(brightness).toString(16)).slice(-2);
-        command = COMMAND_DIM_HEADER + brightnessHex + COMMAND_DIM_FOOTER;
+        const command = COMMAND_DIM_HEADER + brightnessHex + COMMAND_DIM_FOOTER;
+
+        const levelBuffer = Buffer.from(command, "hex");
+
+        await this.sendCommand(levelBuffer); //this.ds.dimLevel(value));
+        return Promise.resolve(true);
       }
-      let levelBuffer = Buffer.from(command, "hex");
-
-      await this.sendCommand(levelBuffer); //this.ds.dimLevel(value));
-
-      return Promise.resolve(true);
     });
   }
 }
