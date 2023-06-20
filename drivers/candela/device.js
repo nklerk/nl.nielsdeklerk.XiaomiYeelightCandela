@@ -1,5 +1,3 @@
-"use strict";
-
 const Homey = require("homey");
 
 const COMMAND_ON = Buffer.from("4340010101f4", "hex");
@@ -7,7 +5,7 @@ const COMMAND_OFF = Buffer.from("4340020101f4", "hex");
 const COMMAND_DIM_HEADER = "4342";
 const COMMAND_DIM_FOOTER = "0101f4";
 
-const SERVICE_UUID = "fe87";
+const SERVICE_UUID = "0000fe8700001000800000805f9b34fb";
 const SERVICE_NOTIFY_UUID = "8f65073d9f574aaaafea397d19d5bbeb";
 const SERVICE_COMMAND_UUID = "aa7d3f342d4f41e0807f52fbf8cf7443";
 
@@ -20,15 +18,11 @@ class CandelaBle extends Homey.Device {
 
   async connectBleService() {
     try {
-      const BLEdevice = await Homey.ManagerBLE.find(this.getData().id);
+      const BLEdevice = await this.homey.ble.find(this.getData().id);
 
-      //Workaround for BUGs in ManagerBLE, (Cashing Bug, Connection Bug)
-      if (BLEdevice.__peripheral) {
-        BLEdevice.__peripheral = null;
-      }
-
-      this.log("Connecting to BLE device");
+      this.log("Connecting to BLE device", BLEdevice);
       this.connectedBLEdevice = await BLEdevice.connect();
+
       const BleService = await this.connectedBLEdevice.getService(SERVICE_UUID);
 
       return Promise.resolve(BleService);
@@ -60,30 +54,43 @@ class CandelaBle extends Homey.Device {
   registerAtHomey() {
     this.registerCapabilityListener("onoff", async value => {
       this.log(`Power is set to: ${value}`);
-      if (value) {
+      if (value && this.getCapabilityValue('dim') === 0) {
+        const brightnessHex = ("0" + Number(10).toString(16)).slice(-2);
+        const command = COMMAND_DIM_HEADER + brightnessHex + COMMAND_DIM_FOOTER;
+
+        const levelBuffer = Buffer.from(command, "hex");
+
+
         await this.sendCommand(COMMAND_ON);
+        await this.sendCommand(levelBuffer);
+
+        return Promise.resolve(true);
+      } else if (value) {
+        await this.sendCommand(COMMAND_ON);
+        return Promise.resolve(true);
       } else {
         await this.sendCommand(COMMAND_OFF);
+        return Promise.resolve(true);
       }
-      return Promise.resolve(true);
     });
 
     this.registerCapabilityListener("dim", async value => {
       this.log(`Brightness is set to ${value}`);
 
       const brightness = parseInt(100 * value);
-      let command = "";
+
       if (brightness == 0) {
-        command = COMMAND_OFF;
+        await this.sendCommand(COMMAND_OFF);
+        return Promise.resolve(true);
       } else {
         const brightnessHex = ("0" + Number(brightness).toString(16)).slice(-2);
-        command = COMMAND_DIM_HEADER + brightnessHex + COMMAND_DIM_FOOTER;
+        const command = COMMAND_DIM_HEADER + brightnessHex + COMMAND_DIM_FOOTER;
+
+        const levelBuffer = Buffer.from(command, "hex");
+
+        await this.sendCommand(levelBuffer); //this.ds.dimLevel(value));
+        return Promise.resolve(true);
       }
-      let levelBuffer = Buffer.from(command, "hex");
-
-      await this.sendCommand(levelBuffer); //this.ds.dimLevel(value));
-
-      return Promise.resolve(true);
     });
   }
 }

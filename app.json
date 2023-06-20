@@ -1,8 +1,8 @@
 {
   "id": "nl.nielsdeklerk.XiaomiYeelightCandela",
   "version": "0.0.5",
-  "compatibility": ">2.4.0",
-  "sdk": 2,
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
   "brandColor": "#DF2D31",
   "permissions": ["homey:wireless:ble"],
   "name": {
@@ -28,6 +28,10 @@
       {
         "name": "Niels de Klerk",
         "email": "mail@nielsdeklerk.nl"
+      },
+      {
+        "name": "Martijn Poppen",
+        "email": "yeelight@martijnpoppen.nl"
       }
     ]
   },
@@ -42,7 +46,6 @@
     "url": "https://github.com/nklerk/nl.nielsdeklerk.XiaomiYeelightCandela"
   },
   "homeyCommunityTopicId": 16518,
-  "capabilities": {},
   "drivers": [
     {
       "id": "candela",
@@ -80,12 +83,7 @@
           "id": "add_devices",
           "template": "add_devices"
         }
-      ],
-      "settings": []
+      ]
     }
-  ],
-  "flow": {
-    "triggers": [],
-    "actions": []
-  }
+  ]
 }
