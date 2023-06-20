@@ -54,12 +54,24 @@ class CandelaBle extends Homey.Device {
   registerAtHomey() {
     this.registerCapabilityListener("onoff", async value => {
       this.log(`Power is set to: ${value}`);
-      if (value) {
+      if (value && this.getCapabilityValue('dim') === 0) {
+        const brightnessHex = ("0" + Number(10).toString(16)).slice(-2);
+        const command = COMMAND_DIM_HEADER + brightnessHex + COMMAND_DIM_FOOTER;
+
+        const levelBuffer = Buffer.from(command, "hex");
+
+
         await this.sendCommand(COMMAND_ON);
+        await this.sendCommand(levelBuffer);
+
+        return Promise.resolve(true);
+      } else if (value) {
+        await this.sendCommand(COMMAND_ON);
+        return Promise.resolve(true);
       } else {
         await this.sendCommand(COMMAND_OFF);
+        return Promise.resolve(true);
       }
-      return Promise.resolve(true);
     });
 
     this.registerCapabilityListener("dim", async value => {
