@@ -1,7 +1,7 @@
 {
   "id": "nl.nielsdeklerk.XiaomiYeelightCandela",
   "version": "0.0.5",
-  "compatibility": ">5.0.0",
+  "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#DF2D31",
   "permissions": ["homey:wireless:ble"],
@@ -46,7 +46,6 @@
     "url": "https://github.com/nklerk/nl.nielsdeklerk.XiaomiYeelightCandela"
   },
   "homeyCommunityTopicId": 16518,
-  "capabilities": {},
   "drivers": [
     {
       "id": "candela",
