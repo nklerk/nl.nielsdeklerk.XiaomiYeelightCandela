@@ -12,7 +12,7 @@ class CandelaBleDriver extends Homey.Driver {
   async discoverLights() {
     this.log("Discovering Candela BLE devices.");
     try {
-      const discoveredDevices = await Homey.ManagerBLE.discover([SERVICE_UUID]);
+      const discoveredDevices = await this.homey.ble.discover([SERVICE_UUID]);
       const mappedDiscoveredDevices = discoveredDevices.map(bleDevice => {
         const device = {
           name: `${PRESENTATION_NAME} ${bleDevice.address.substr(bleDevice.address.length - 5)}`,

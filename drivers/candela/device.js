@@ -1,5 +1,3 @@
-"use strict";
-
 const Homey = require("homey");
 
 const COMMAND_ON = Buffer.from("4340010101f4", "hex");
@@ -20,7 +18,7 @@ class CandelaBle extends Homey.Device {
 
   async connectBleService() {
     try {
-      const BLEdevice = await Homey.ManagerBLE.find(this.getData().id);
+      const BLEdevice = await this.homey.ble.find(this.getData().id);
 
       //Workaround for BUGs in ManagerBLE, (Cashing Bug, Connection Bug)
       if (BLEdevice.__peripheral) {
